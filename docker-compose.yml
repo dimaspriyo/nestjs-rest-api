@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+    nestjs:
+        build:
+            context: ./nestjs
+        ports:
+            - 3000:3000
+        networks:
+            - go-sistem-gudang
+        depends_on:
+            - postgresql
+    postgresql:
+        build:
+            context: ./postgresql
+        ports:
+            - 5432:5432
+        networks:
+            - go-sistem-gudang
+networks:
+    go-sistem-gudang:
