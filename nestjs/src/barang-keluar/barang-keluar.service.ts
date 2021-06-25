@@ -49,18 +49,13 @@ export class BarangKeluarService implements IBarangKeluarService {
           if(barang.jumlah < 0 ){
             throw new InternalServerErrorException("Stok Barang " + barang.name + " Tidak Mencukupi");
           }
-          console.log("barang.jumlah : " + barang.jumlah + " & v.jumlah : " + v.jumlah + " = " + barang.jumlah);
 
           await this.barangRepository.save(barang);
 
 
           item.barang = barang;
         item.jumlah = v.jumlah;
-        item.satuan = await this.satuanRepository
-          .findOneOrFail(v.satuan)
-          .catch((err) => {
-            throw new InternalServerErrorException(err);
-          });
+
         return item;
       }),
     );
@@ -128,7 +123,6 @@ export class BarangKeluarService implements IBarangKeluarService {
         barangKeluarItem.id = v.id;
         barangKeluarItem.barang = v.barang.id;
         barangKeluarItem.jumlah = v.jumlah;
-        barangKeluarItem.satuan = v.satuan.id;
         return barangKeluarItem;
       });
 
@@ -152,7 +146,6 @@ export class BarangKeluarService implements IBarangKeluarService {
       barangKeluarItem.id = v.id;
       barangKeluarItem.barang = v.barang.id;
       barangKeluarItem.jumlah = v.jumlah;
-      barangKeluarItem.satuan = v.satuan.id;
       return barangKeluarItem;
     });
 

@@ -40,17 +40,12 @@ export class BarangMasukService implements IBarangMasukService {
             throw new InternalServerErrorException(err);
           });
 
-          let stokTerakhir = +barang.jumlah + +v.jumlah
-          barang.jumlah = stokTerakhir
-          await this.barangRepository.save(barang);
+        let stokTerakhir = +barang.jumlah + +v.jumlah;
+        barang.jumlah = stokTerakhir;
+        await this.barangRepository.save(barang);
 
         item.barang = barang;
         item.jumlah = v.jumlah;
-        item.satuan = await this.satuanRepository
-          .findOneOrFail(v.satuan)
-          .catch((err) => {
-            throw new InternalServerErrorException(err);
-          });
 
         return item;
       }),
@@ -128,7 +123,6 @@ export class BarangMasukService implements IBarangMasukService {
         barangMasukItem.id = v.id;
         barangMasukItem.barang = v.barang.id;
         barangMasukItem.jumlah = v.jumlah;
-        barangMasukItem.satuan = v.satuan.id;
         return barangMasukItem;
       });
       return res;
