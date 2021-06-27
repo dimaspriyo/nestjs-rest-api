@@ -6,7 +6,6 @@ import { Response, Request } from 'express';
 export class AuthenticationMiddleware implements NestMiddleware {
   constructor(private readonly jwtService: JwtService) {}
   use(req: Request, res: Response, next: () => void) {
-
     const authorizationHeader = req.headers.authorization
 
     if ( authorizationHeader == undefined) {
@@ -15,9 +14,16 @@ export class AuthenticationMiddleware implements NestMiddleware {
       try {
         const token = authorizationHeader.split(' ')[1];
         this.jwtService.verify(token);
-      } catch (error) {
-        throw new BadRequestException("Token Is Not Valid");
         
+        var decodedToken = this.jwtService.decode(token);
+       if(decodedToken["expired"] < Math.floor(Date.now() / 1000 + 100000)){
+        res.status(HttpStatus.BAD_REQUEST).json("Token Expired");
+       }
+
+      } catch (error) {
+        console.log(error);
+        
+        res.status(HttpStatus.BAD_REQUEST).json(error);
       }
       next();
     }

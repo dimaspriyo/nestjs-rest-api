@@ -129,7 +129,7 @@ export class AccountService implements IAccountService {
     }
 
     try {
-      const payload = { name: account.name, email: account.email, role: account.role.name  };
+      const payload = { name: account.name, email: account.email, role: account.role.name, expired: Math.floor(Date.now() / 1000) + 3600  };
 
     var response = new LoginResponse();
     response.access_token = this.jwtService.sign(payload);
