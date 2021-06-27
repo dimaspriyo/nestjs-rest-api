@@ -16,7 +16,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
         this.jwtService.verify(token);
         
         var decodedToken = this.jwtService.decode(token);
-       if(decodedToken["expired"] < Math.floor(Date.now() / 1000 + 100000)){
+       if(decodedToken["expired"] < Math.floor(Date.now() / 1000 )){
         res.status(HttpStatus.BAD_REQUEST).json("Token Expired");
        }
 
